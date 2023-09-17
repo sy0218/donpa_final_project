@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Item List</title>
+    <style>
+        
+        /* 제목 */
+        h1 {
+            font-size: 46px;
+            color: #f7e706;
+            text-align: center;
+        }
+
+        /* 메뉴 스타일링 */
+        ul.menu {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+            padding: 10px 0;
+        }
+        ul.menu li {
+            display: inline;
+            margin-right: 20px;
+            font-size: 40px;
+        }
+        ul.menu li a {
+            color: rgb(255, 255, 255);
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.3s, transform 0.2s;
+        }
+        ul.menu li a:hover {
+            background-color: #4e2626;
+            transform: translateY(-2px);
+        }
+
+        /* 배경 이미지 추가 */
+        body {
+            background-image: url('https://bbscdn.df.nexon.com/data7/commu/201712/205032_5a44da887e6a8.jpg');
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            background-position: center;
+            position: relative;
+            z-index: 0;
+        }
+
+        /* 테이블 스타일링 */
+        table {
+            margin: 0 auto;
+            border-collapse: collapse;
+            width: 80%;
+            background-color: rgba(102, 80, 80, 0.8);
+            box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        /* 테이블 셀 스타일링 */
+        th, td {
+            padding: 15px;
+            text-align: center;
+            vertical-align: middle;
+        }
+
+        /* 짝수 행 배경색 지정 */
+        tbody tr:nth-child(even) {
+            background-color: #6c6d7c;
+        }
+
+        /* 테이블 헤더 스타일링 */
+        th {
+            background-color: #333;
+            color: #fff;
+            font-weight: bold;
+        }
+
+        /* 뉴스 타이틀 스타일링 */
+        .item-title {
+            font-size: 280%;
+            color: #bee60d;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        /* 이미지 스타일링 */
+        img {
+            width: 100%;
+            height: auto;
+        }
+
+        /* 호버 효과 스타일링 */
+        td a.item-title:hover {
+            color: #ff00f2;
+            text-decoration: underline;
+        }
+    </style>
+    
+</head>
+<body>
+    <ul class="menu">
+        <li><a href="/">아이템 시세</a></li>
+        <li><a href="/aabata/">아바타 시세</a></li>
+        <li><a href="/event/">진행 중 이벤트</a></li>
+        <li><a href="/news/">던파 소식</a></li>
+    </ul>
+    <h1>던전앤파이터 뉴스</h1>
+    <table>
+        <thead>
+            <tr>
+
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in items %}
+            <tr>
+                <td><img src="{{ item.photo }}" alt="Item Image"></td>
+                <td><a href="{{ item.link }}" target = "_blank" class="item-title">{{ item.title }}</a></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    
+    
+    
+</body>
+</html>

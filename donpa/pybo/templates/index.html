@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Item List</title>
+    <style>
+        /* 표 스타일링 */
+        table {
+            width: 80%; /* 표의 너비를 조절하세요 */
+            border-collapse: collapse;
+            margin: 20px auto; /* 가운데 정렬 */
+        }
+        th, td {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        /* 이미지 크기 조정 */
+        img {
+            width: 100px; /* 이미지의 너비를 조절하세요 */
+            height: auto; /* 이미지 높이 자동 조절 */
+        }
+        /* 제목 */
+        h1 {
+            font-size: 46px; /* 큰 제목 크기로 변경 */
+            color: #f7e706; /* 게임 색상으로 변경 */
+            text-align: center;/* 제목 가운데 정렬*/
+        }
+        /* 메뉴 스타일링 */
+        ul.menu {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+            
+            padding: 10px 0; /* 메뉴 항목 위아래로 간격 추가 */
+        }
+        ul.menu li {
+            display: inline;
+            margin-right: 20px;
+            font-size: 40px;
+        }
+        ul.menu li a {
+            color: rgb(255, 255, 255);
+            text-decoration: none;
+            padding: 10px 20px; /* 각 메뉴 항목의 내부 여백 추가 */
+            border-radius: 5px; /* 각 메뉴 항목을 둥글게 꾸미기 */
+            /* background-color: #534747; /* 배경색 추가 */
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* 그림자 효과 추가 */
+            transition: background-color 0.3s, transform 0.2s; /* 호버 효과를 위한 트랜지션 설정 */
+        }
+        ul.menu li a:hover {
+            background-color: #4e2626; /* 호버 시 배경색 변경 */
+            transform: translateY(-2px); /* 호버 시 약간 위로 이동 효과 */
+        }
+        /* 차트 컨테이너 스타일링 */
+        .chart-container {
+            width: 90%; /* 차트 컨테이너의 너비를 조절하세요 */
+            margin: 20px /* 가운데 정렬 */
+        }
+
+        /* item-name 스타일 */
+        .item-name {
+            font-weight: bold; /* 굵은 글씨체 */
+            color: #007BFF; /* 텍스트 색상 변경 */
+            font-size: 18px; /* 글씨 크기 변경 */
+        }
+
+        /* item-price 스타일 */
+        .item-price {
+            font-weight: bold; /* 굵은 글씨체 */
+            color: #28A745; /* 텍스트 색상 변경 */
+            font-size: 18px; /* 글씨 크기 변경 */
+        }
+
+        /* 배경 이미지 추가 */
+        body {
+            background-image: url('https://bbscdn.df.nexon.com/data7/commu/201712/205032_5a44da887e6a8.jpg');
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            background-position: center;
+            position: relative;
+            z-index: 0;
+        }
+
+        /* 표 스타일링 */
+        table {
+            width: 80%; /* 표의 너비를 조절하세요 */
+            border-collapse: collapse;
+            margin: 20px auto; /* 가운데 정렬 */
+            position: relative; /* z-index를 사용하기 위해 설정 */
+            z-index: 1; /* 표의 z-index를 배경 이미지 위로 설정 */
+        }
+
+        th, td {
+            border: 4px solid #000000;
+            background-color: #dddddd;
+            text-align: left;
+            padding: 18px;
+        }
+
+        th {
+            background-color: #ff0000;
+        }
+    </style>
+    <!-- Chart.js 추가 -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js"></script>
+</head>
+<body>
+    <ul class="menu">
+        <li><a href="/">아이템 시세</a></li>
+        <li><a href="/aabata/">아바타 시세</a></li>
+        <li><a href="/event/">진행 중 이벤트</a></li>
+        <li><a href="/news/">던파 소식</a></li>
+    </ul>
+    <h1>던전앤파이터 아이템</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>아이템 이미지</th>
+                <th>아이템 명</th>
+                <th>1시간뒤 예상 가격</th>
+                <th>아이템 가격 변동</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in items %}
+            <tr>
+                <td><img src="{{ item.item_img }}" alt="Item Image"></td>
+                <td><span class="item-name">{{ item.item_name }}</span></td>
+                <td><span class="item-price">{{ item.price }}</span></td>
+                <td>
+                    <div class="chart-container">
+                        <canvas class="line-chart" data-values="{{ item.before_ten }}, {{ item.before_nine }}, {{ item.before_eight }}, {{ item.before_seven }}, {{ item.before_six }}, {{ item.before_five }}, {{ item.before_four }}, {{ item.before_three }}, {{ item.before_two }}, {{ item.before_one }}, {{ item.before_now }}"></canvas>
+                    </div>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    
+    <!-- JavaScript로 그래프 그리기 -->
+    <script>
+        // 모든 차트를 가져와서 데이터를 설정하고 그립니다.
+        const charts = document.querySelectorAll('.line-chart');
+        charts.forEach(chart => {
+            const values = chart.dataset.values.split(', ').map(value => parseFloat(value));
+            new Chart(chart, {
+                type: 'line',
+                data: {
+                    labels: ['10시간 전', '9시간 전', '8시간 전', '7시간 전', '6시간 전', '5시간 전', '4시간 전', '3시간 전', '2시간 전', '1시간 전', '0시간 전'],
+                    datasets: [{
+                        data: values,
+                        borderColor: '#ff6600', /* 게임 스타일 색상으로 변경 */
+                        backgroundColor: 'rgba(255, 102, 0, 0.2)', /* 배경색 추가 */
+                        fill: true
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: false
+                        }
+                    }
+                }
+            });
+
+        });
+    </script>
+</body>
+</html>
+

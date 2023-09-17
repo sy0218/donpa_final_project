@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>던전앤파이터 이벤트</title>
+    <style>
+        /* 제목 */
+        h1 {
+            font-size: 46px; /* 큰 제목 크기로 변경 */
+            color: #f7e706; /* 게임 색상으로 변경 */
+            text-align: center;/* 제목 가운데 정렬*/
+        }
+        /* 메뉴 스타일링 */
+        ul.menu {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+            
+            padding: 10px 0; /* 메뉴 항목 위아래로 간격 추가 */
+        }
+        ul.menu li {
+            display: inline;
+            margin-right: 20px;
+            font-size: 40px;
+        }
+        ul.menu li a {
+            color: rgb(255, 255, 255);
+            text-decoration: none;
+            padding: 10px 20px; /* 각 메뉴 항목의 내부 여백 추가 */
+            border-radius: 5px; /* 각 메뉴 항목을 둥글게 꾸미기 */
+            /* background-color: #534747; /* 배경색 추가 */
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* 그림자 효과 추가 */
+            transition: background-color 0.3s, transform 0.2s; /* 호버 효과를 위한 트랜지션 설정 */
+        }
+        ul.menu li a:hover {
+            background-color: #4e2626; /* 호버 시 배경색 변경 */
+            transform: translateY(-2px); /* 호버 시 약간 위로 이동 효과 */
+        }
+
+        /* 배경 이미지 추가 */
+        body {
+            background-image: url('https://bbscdn.df.nexon.com/data7/commu/201712/205032_5a44da887e6a8.jpg');
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            background-position: center;
+            position: relative;
+            z-index: 0;
+        }
+
+        /* 아이템 스타일링 */
+        .item {
+            background-color: #fff;
+            padding: 20px;
+            margin: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+            width: calc(25% - 20px); /* 컨테이너의 절반 너비로 설정하고 간격을 추가합니다 */
+            display: inline-block;
+            vertical-align: top;
+            box-sizing: border-box;
+            float: left;
+        }
+
+        /* 컨테이너 스타일링 */
+        .container {
+            max-width: 1800px;
+            margin: 0 auto;
+            padding: 20px;
+            text-align: center; /* 가운데 정렬 */
+            overflow: hidden; /* float 된 아이템을 감싸기 위해 추가 */
+        }
+
+        .item img {
+            max-width: 100%;
+            height: auto;
+            margin-bottom: 10px;
+            transition: transform 0.2s; /* 호버 효과를 위한 트랜지션 설정 */
+        }
+
+        .item:hover img {
+            transform: scale(1.1); /* 호버 시 이미지 확대 효과 */
+        }
+
+        .item-title {
+            font-weight: bold;
+            font-size: 20px;
+            text-decoration: none;
+            color: #333;
+            transition: color 0.3s; /* 호버 효과를 위한 트랜지션 설정 */
+        }
+
+        .item-title:hover {
+            color: #f7e706; /* 호버 시 제목 색상 변경 */
+        }
+
+        .date {
+            color: #777;
+        }
+    </style>
+</head>
+<body>
+    <ul class="menu">
+        <li><a href="/">아이템 시세</a></li>
+        <li><a href="/aabata/">아바타 시세</a></li>
+        <li><a href="/event/">진행 중 이벤트</a></li>
+        <li><a href="/news/">던파 소식</a></li>
+    </ul>
+    <h1>던전앤파이터 이벤트</h1>
+    <div class="container">
+        {% for item in items %}
+        <div class="item">
+            <a href="{{ item.herf }}" target="_blank">
+                <img src="{{ item.img }}" alt="Item Image">
+                <a href="{{ item.herf }}" target="_blank" class="item-title">{{ item.text }}</a>
+                <p class="date">{{ item.date }}</p>
+            </a>
+        </div>
+        {% endfor %}
+    </div>
+</body>
+</html>
+

@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Item List</title>
+    <style>
+        
+        /* 제목 */
+        h1 {
+            font-size: 46px; /* 큰 제목 크기로 변경 */
+            color: #f7e706; /* 게임 색상으로 변경 */
+            text-align: center;/* 제목 가운데 정렬*/
+        }
+        /* 메뉴 스타일링 */
+        ul.menu {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+            
+            padding: 10px 0; /* 메뉴 항목 위아래로 간격 추가 */
+        }
+        ul.menu li {
+            display: inline;
+            margin-right: 20px;
+            font-size: 40px;
+        }
+        ul.menu li a {
+            color: rgb(255, 255, 255);
+            text-decoration: none;
+            padding: 10px 20px; /* 각 메뉴 항목의 내부 여백 추가 */
+            border-radius: 5px; /* 각 메뉴 항목을 둥글게 꾸미기 */
+            /* background-color: #534747; /* 배경색 추가 */
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* 그림자 효과 추가 */
+            transition: background-color 0.3s, transform 0.2s; /* 호버 효과를 위한 트랜지션 설정 */
+        }
+        ul.menu li a:hover {
+            background-color: #4e2626; /* 호버 시 배경색 변경 */
+            transform: translateY(-2px); /* 호버 시 약간 위로 이동 효과 */
+        }
+        
+
+        /* 배경 이미지 추가 */
+        body {
+            background-image: url('https://bbscdn.df.nexon.com/data7/commu/201712/205032_5a44da887e6a8.jpg');
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            background-position: center;
+            position: relative;
+            z-index: 0;
+        }
+
+        /* select 스타일링 */
+        select, input {
+            padding: 10px;
+            font-size: 16px;
+            margin: 5px 0;
+        }
+        
+        label {
+            display: inline-block;
+            width: 80px; /* 라벨 너비 조절 */
+        }
+        
+        /* 결과 표시 스타일링 */
+        #resultDiv {
+            font-size: 20px;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        /* 확인 버튼 스타일링 */
+        #confirmButton {
+            display: block;
+            margin: 20px auto; /* 가운데 정렬 */
+            padding: 10px 20px;
+            font-size: 24px; /* 버튼 크기 키우기 */
+            background-color: #4e2626; /* 배경색 변경 */
+            color: #fff; /* 텍스트 색상 변경 */
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        /* 확인 버튼 스타일링 */
+        #confirmButton1 {
+            display: block;
+            margin: 20px auto; /* 가운데 정렬 */
+            padding: 10px 20px;
+            font-size: 24px; /* 버튼 크기 키우기 */
+            background-color: #4e2626; /* 배경색 변경 */
+            color: #fff; /* 텍스트 색상 변경 */
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        
+        /* 추가된 텍스트 스타일링 */
+        .input-label {
+            display: block;
+            text-align: center;
+            margin-top: 10px;
+        }
+
+        /* select 요소 스타일링 */
+        .select-container {
+            text-align: center;
+        }
+        
+        .select-container select {
+            padding: 10px;
+            font-size: 16px;
+            margin: 5px;
+        }
+
+        /* 금일 예상 가격 스타일링 */
+        #resultDiv {
+            font-size: 30px; /* 글꼴 크기 키우기 */
+            text-align: center;
+            margin-top: 20px;
+            color: #12e612; /* 색상 변경 */
+            opacity: 0; /* 초기에는 투명하게 설정 */
+            transform: translateY(20px); /* 초기 위치를 아래로 설정 */
+            transition: opacity 0.5s, transform 0.5s; /* 나타날 때 효과를 위한 트랜지션 설정 */
+        }
+
+        /* 금일 예상 가격 스타일링 */
+        #resultDiv1 {
+            font-size: 30px; /* 글꼴 크기 키우기 */
+            text-align: center;
+            margin-top: 20px;
+            color: #12e612; /* 색상 변경 */
+            opacity: 0; /* 초기에는 투명하게 설정 */
+            transform: translateY(20px); /* 초기 위치를 아래로 설정 */
+            transition: opacity 0.5s, transform 0.5s; /* 나타날 때 효과를 위한 트랜지션 설정 */
+        }
+
+        /* 추가된 텍스트 스타일링 */
+        .input-label {
+            display: block;
+            font-size: 20px;
+            text-align: center;
+            margin-top: 10px;
+            color: #060af5; /* 글씨색을 원하는 색상으로 변경 */
+        }
+
+        
+
+        .input-box {
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            background-color: rgba(255, 255, 255, 0.8);
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+            margin-right: 20px;
+        }
+
+        /* 추가된 텍스트 스타일링 */
+        .input-label1 {
+            display: block;
+            font-size: 20px;
+            text-align: center;
+            margin-top: 10px;
+            color: #060af5; /* 글씨색을 원하는 색상으로 변경 */
+        }
+
+        
+
+        .input-box1 {
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            background-color: rgba(255, 255, 255, 0.8);
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+            margin-right: 20px;
+        }
+
+        /* 수정 후 */
+        .container-wrapper {
+            display: flex;
+            justify-content: center; /* 중앙 정렬 */
+        }
+
+        .container, .container1 {
+            width: 30%;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            background-color: rgba(255, 255, 255, 0.8);
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+            margin-right: 20px;
+        }
+
+        .container1 {
+            margin-right: 0; /* 두 번째 컨테이너의 오른쪽 여백 제거 */
+        }
+
+    </style>
+    
+</head>
+<div>
+    <ul class="menu">
+        <li><a href="/">아이템 시세</a></li>
+        <li><a href="/aabata/">아바타 시세</a></li>
+        <li><a href="/event/">진행 중 이벤트</a></li>
+        <li><a href="/news/">던파 소식</a></li>
+    </ul>
+    <h1>던전앤파이터 아바타</h1>
+    <div class="container-wrapper">
+        <div class="container">
+            <div class="input-box">
+                <div class="input-label">레어 아바타 예상 가격</div>
+                <!-- select 요소 추가 -->
+                <div class="input-label">Title: 
+                    <select id="select1">
+                        {% for item in items %}
+                            {% if item.title %}
+                                <option value="{{ item.title }}">{{ item.title }}</option>
+                            {% endif %}
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="input-label">Jobname: 
+                    <select id="select2">
+                        {% for item in items %}
+                            {% if item.jobname %}
+                                <option value="{{ item.jobname }}">{{ item.jobname }}</option>
+                            {% endif %}
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="input-label">Emblem: 
+                    <select id="select3">
+                        {% for item in items %}
+                            {% if item.emblem %}
+                                <option value="{{ item.emblem }}">{{ item.emblem }}</option>
+                            {% endif %}
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <!-- 두 번째 행: Day of the week, Year, Month, Day -->
+                <div class="input-label">Day of the week: 
+                    <select id="select4">
+                        <!-- JavaScript를 사용하여 요일 옵션 추가 -->
+                    </select>
+
+                    <script>
+                        // 요일 배열 생성
+                        var daysOfWeek = ["Sunday", "Saturday", "Friday", "Monday", "Thursday", "Tuesday", "Wednesday"];
+
+                        // select 요소 가져오기
+                        var selectElement = document.getElementById("select4");
+
+                        // 요일 배열을 반복하면서 옵션 요소 추가
+                        for (var i = 0; i < daysOfWeek.length; i++) {
+                            var option = document.createElement("option");
+                            option.value = daysOfWeek[i];
+                            option.text = daysOfWeek[i];
+                            selectElement.appendChild(option);
+                        }
+                    </script>
+                </div>
+
+                    <!-- year, month, day 입력 필드 추가 -->
+                <div class="input-label">Year: 
+                <input type="number" id="year" name="year" min="2000" max="2099" step="1" placeholder="Enter year">
+                </div>
+
+                <div class="input-label">Month: 
+                <input type="number" id="month" name="month" min="1" max="12" step="1" placeholder="Enter month">
+                </div>
+
+                <div class="input-label">Day: 
+                <input type="number" id="day" name="day" min="1" max="31" step="1" placeholder="Enter day">
+                </div>
+                <!-- 확인 버튼 추가 -->
+                <button id="confirmButton">확인</button>
+
+                <!-- 금일 예상 가격 -->
+                <div id="resultDiv"></div>
+            </div>    
+        </div>
+        <script>
+        var resultDiv = document.getElementById("resultDiv");
+
+        document.getElementById("confirmButton").addEventListener("click", function () {
+            var selectedTitle = document.getElementById("select1").value;
+            var selectedJobname = document.getElementById("select2").value;
+            var selectedEmblem = document.getElementById("select3").value;
+            var sell = "{{ sell_text }}";
+            var buy = "{{ buy_text }}";
+            var year = document.getElementById("year").value;
+            var month = document.getElementById("month").value;
+            var day = document.getElementById("day").value;
+            var day_name = document.getElementById("select4").value;
+
+            // JavaScript 객체로 데이터 준비
+            var data = {
+                'selectedTitle': selectedTitle,
+                'selectedJobname': selectedJobname,
+                'selectedEmblem': selectedEmblem,
+                'sell': sell,
+                'buy': buy,
+                'year': year,
+                'month': month,
+                'day': day,
+                'day_name': day_name,
+            };
+
+            // AJAX를 사용하여 데이터를 서버로 전송
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', '/process_data/', true); // URL을 수정해야 합니다.
+            xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
+            xhr.send(JSON.stringify(data));
+
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4) {
+                    if (xhr.status === 200) {
+                        // 서버에서의 응답 처리
+                        var response = JSON.parse(xhr.responseText);
+                        // 결과를 표시할 위치에 표시
+                        resultDiv.innerHTML = "금일 예상 가격:" + response.message;
+                        resultDiv.style.opacity = 1;
+                        resultDiv.style.transform = "translateY(0)";
+                    } else {
+                        // 오류 처리
+                        resultDiv.innerHTML = 'Error: ' + xhr.status;
+                    }
+                }
+            };
+        });
+        </script>
+
+
+        <div class="container1">
+            <div class="input-box1">
+                <div class="input-label1">상급 아바타 예상 가격</div>
+                <!-- select 요소 추가 -->
+                <div class="input-label1">Title: 
+                    <select id="select1_1">
+                        {% for item in items1 %}
+                            {% if item.title %}
+                                <option value="{{ item.title }}">{{ item.title }}</option>
+                            {% endif %}
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="input-label1">Jobname: 
+                    <select id="select2_1">
+                        {% for item in items1 %}
+                            {% if item.jobname %}
+                                <option value="{{ item.jobname }}">{{ item.jobname }}</option>
+                            {% endif %}
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="input-label1">Emblem: 
+                    <select id="select3_1">
+                        {% for item in items1 %}
+                            {% if item.emblem %}
+                                <option value="{{ item.emblem }}">{{ item.emblem }}</option>
+                            {% endif %}
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <!-- 두 번째 행: Day of the week, Year, Month, Day -->
+                <div class="input-label1">Day of the week: 
+                    <select id="select4_1">
+                        <!-- JavaScript를 사용하여 요일 옵션 추가 -->
+                    </select>
+
+                    <script>
+                        // 요일 배열 생성
+                        var daysOfWeek = ["Sunday", "Saturday", "Friday", "Monday", "Thursday", "Tuesday", "Wednesday"];
+
+                        // select 요소 가져오기
+                        var selectElement = document.getElementById("select4_1");
+
+                        // 요일 배열을 반복하면서 옵션 요소 추가
+                        for (var i = 0; i < daysOfWeek.length; i++) {
+                            var option = document.createElement("option");
+                            option.value = daysOfWeek[i];
+                            option.text = daysOfWeek[i];
+                            selectElement.appendChild(option);
+                        }
+                    </script>
+                </div>
+
+                    <!-- year, month, day 입력 필드 추가 -->
+                <div class="input-label1">Year: 
+                <input type="number" id="year_1" name="year_1" min="2000" max="2099" step="1" placeholder="Enter year">
+                </div>
+
+                <div class="input-label1">Month: 
+                <input type="number" id="month_1" name="month_1" min="1" max="12" step="1" placeholder="Enter month">
+                </div>
+
+                <div class="input-label1">Day: 
+                <input type="number" id="day_1" name="day_1" min="1" max="31" step="1" placeholder="Enter day">
+                </div>
+                <!-- 확인 버튼 추가 -->
+                <button id="confirmButton1">확인</button>
+
+                <!-- 금일 예상 가격 -->
+                <div id="resultDiv1"></div>
+            </div>    
+        </div>
+        <script>
+        var resultDiv1 = document.getElementById("resultDiv1");
+
+        document.getElementById("confirmButton1").addEventListener("click", function () {
+            var selectedTitle = document.getElementById("select1_1").value;
+            var selectedJobname = document.getElementById("select2_1").value;
+            var selectedEmblem = document.getElementById("select3_1").value;
+            var sell = "{{ sell_text }}";
+            var buy = "{{ buy_text }}";
+            var year = document.getElementById("year_1").value;
+            var month = document.getElementById("month_1").value;
+            var day = document.getElementById("day_1").value;
+            var day_name = document.getElementById("select4_1").value;
+
+            // JavaScript 객체로 데이터 준비
+            var data = {
+                'selectedTitle': selectedTitle,
+                'selectedJobname': selectedJobname,
+                'selectedEmblem': selectedEmblem,
+                'sell': sell,
+                'buy': buy,
+                'year': year,
+                'month': month,
+                'day': day,
+                'day_name': day_name,
+            };
+
+            // AJAX를 사용하여 데이터를 서버로 전송
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', '/process_data1/', true); // URL을 수정해야 합니다.
+            xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
+            xhr.send(JSON.stringify(data));
+
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4) {
+                    if (xhr.status === 200) {
+                        // 서버에서의 응답 처리
+                        var response = JSON.parse(xhr.responseText);
+                        // 결과를 표시할 위치에 표시
+                        resultDiv1.innerHTML = "금일 예상 가격:" + response.message;
+                        resultDiv1.style.opacity = 1;
+                        resultDiv1.style.transform = "translateY(0)";
+                    } else {
+                        // 오류 처리
+                        resultDiv1.innerHTML = 'Error: ' + xhr.status;
+                    }
+                }
+            };
+        });
+        </script>
+    </div>
+</body>
+</html>
