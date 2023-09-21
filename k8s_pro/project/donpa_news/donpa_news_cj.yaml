@@ -1,0 +1,17 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: donpa-news-cj
+spec:
+  schedule: "0 */3 * * *"
+  jobTemplate:
+    spec:
+      template:
+        metadata:
+          labels:
+            app: donpa-news-cj
+        spec:
+          restartPolicy: OnFailure
+          containers:
+          - name: donpa-news-cronjob
+            image: sy02229/donpa_news:latest

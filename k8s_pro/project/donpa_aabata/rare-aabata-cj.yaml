@@ -1,0 +1,42 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  namespace: sy
+  name: aabata-rare-cj
+spec:
+  schedule: "*/1 * * * *"
+  jobTemplate:
+    spec:
+      template:
+        metadata:
+          labels:
+            app: aabata-rare-cj
+        spec:
+          restartPolicy: Never
+          containers:
+          - name: aabata-rare-cj
+            image: kubeflow-registry.default.svc.cluster.local:30000/rarestart:latest
+
+            volumeMounts:
+              - name: scaler-volume
+                mountPath: /home/jovyan/scaler
+              - name: encoder-volume
+                mountPath: /home/jovyan/encoder
+              - name: model-volume
+                mountPath: /home/jovyan/model
+              - name: csv-volume
+                mountPath: /home/jovyan/csv
+
+          volumes:
+            - name: scaler-volume
+              persistentVolumeClaim:
+                      claimName: scaler-pvc
+            - name: encoder-volume
+              persistentVolumeClaim:
+                      claimName: encoder-pvc
+            - name: model-volume
+              persistentVolumeClaim:
+                      claimName: model-pvc
+            - name: csv-volume
+              persistentVolumeClaim:
+                      claimName: csv-pvc

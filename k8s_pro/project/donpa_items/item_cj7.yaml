@@ -1,0 +1,17 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: item-cj7
+spec:
+  schedule: "20 * * * *"
+  jobTemplate:
+    spec:
+      template:
+        metadata:
+          labels:
+            app: item-cj7
+        spec:
+          restartPolicy: OnFailure
+          containers:
+          - name: item-cronjob7
+            image: kubeflow-registry.default.svc.cluster.local:30000/donpa_item8:latest

@@ -1,0 +1,17 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: goldprice
+spec:
+  schedule: "15 * * * *"
+  jobTemplate:
+    spec:
+      template:
+        metadata:
+          labels:
+            app: goldprice
+        spec:
+          restartPolicy: OnFailure
+          containers:
+          - name: goldprice
+            image: kubeflow-registry.default.svc.cluster.local:30000/goldprice:latest

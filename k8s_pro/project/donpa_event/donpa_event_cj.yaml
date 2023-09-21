@@ -1,0 +1,17 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: donpa-event-cj
+spec:
+  schedule: "10 10 * * *"
+  jobTemplate:
+    spec:
+      template:
+        metadata:
+          labels:
+            app: donpa-event-cj
+        spec:
+          restartPolicy: OnFailure
+          containers:
+          - name: donpa-event-cronjob
+            image: kubeflow-registry.default.svc.cluster.local:30000/donpa_event:latest

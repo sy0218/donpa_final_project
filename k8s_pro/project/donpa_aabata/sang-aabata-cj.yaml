@@ -1,0 +1,36 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: aabata-sang-cj
+spec:
+  schedule: "*/2 * * * *"
+  jobTemplate:
+    spec:
+      template:
+        metadata:
+          labels:
+            app: aabata-sang-cj
+        spec:
+          restartPolicy: OnFailure
+          containers:
+          - name: aabata-rare-cj
+            image: kubeflow-registry.default.svc.cluster.local:30000/sangpipline1:latest
+
+            volumeMounts:
+              - name: scaler-volume
+                mountPath: /home/jovyan/scaler
+              - name: encoder-volume
+                mountPath: /home/jovyan/encoder
+              - name: model-volume
+                mountPath: /home/jovyan/model
+
+          volumes:
+            - name: scaler-volume
+              persistentVolumeClaim:
+                      claimName: scaler-pvc
+            - name: encoder-volume
+              persistentVolumeClaim:
+                      claimName: encoder-pvc
+            - name: model-volume
+              persistentVolumeClaim:
+                      claimName: model-pvc

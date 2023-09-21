@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  name: donpa-django-rs
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: donpa-django-rs
+  template:
+    metadata:
+      labels:
+        app: donpa-django-rs
+    spec:
+      containers:
+      - name: donpa-django
+        image: sy02229/donpa_django:latest
+        ports:
+        - containerPort: 8000
+        volumeMounts:
+              - name: scaler-volume
+                mountPath: /home/jovyan/scaler
+              - name: encoder-volume
+                mountPath: /home/jovyan/encoder
+              - name: model-volume
+                mountPath: /home/jovyan/model
+
+      volumes:
+        - name: scaler-volume
+          persistentVolumeClaim:
+                  claimName: scaler-pvc
+        - name: encoder-volume
+          persistentVolumeClaim:
+                  claimName: encoder-pvc
+        - name: model-volume
+          persistentVolumeClaim:
+                  claimName: model-pvc

@@ -1,0 +1,26 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: aabata-sang-cj
+spec:
+  schedule: "*/1 * * * *"
+  jobTemplate:
+    spec:
+      template:
+        metadata:
+          labels:
+            app: aabata-sang-cj
+        spec:
+          restartPolicy: Never
+          containers:
+          - name: aabata-sang-cj
+            image: kubeflow-registry.default.svc.cluster.local:30000/sangpipline1:latest
+
+            volumeMounts:
+              - name: csv-volume
+                mountPath: /home/jovyan/csv
+
+          volumes:
+            - name: csv-volume
+              persistentVolumeClaim:
+                      claimName: sang-csv-pvc

@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: mariadb-service
+  namespace: default
+spec:
+  selector:
+    app: mariadb
+  ports:
+    - protocol: TCP
+      port: 3306  # 서비스가 생성하는 엔드포인트의 포트
+      targetPort: 3306  # 실제 MariaDB 파드의 포트
+      
